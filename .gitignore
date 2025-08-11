@@ -1,0 +1,31 @@
+# Mendix build output & cache
+/deployment/
+/theme/cache/
+/tmp/
+/modeler/
+
+# Local environment settings
+*.log
+*.bak
+*.tmp
+*.swp
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# Node modules (for widgets)
+node_modules/
+*.lock
+
+# IDE settings
+.vscode/
+.idea/
+*.iml
+
+# Test & coverage output
+coverage/
+junitreports/
