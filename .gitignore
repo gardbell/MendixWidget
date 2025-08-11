@@ -1,31 +1,57 @@
-# Mendix build output & cache
+gitignore
+복사편집
+# ------------------------
+# Mendix build & cache
+# ------------------------
 /deployment/
 /theme/cache/
 /tmp/
 /modeler/
 
-# Local environment settings
+# ------------------------
+# Node.js / pnpm dependencies
+# ------------------------
+node_modules/
+.pnp/
+.pnp.js
+.pnp.cjs
+.pnp.data.json
+
+# lock files (npm / yarn / pnpm)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ------------------------
+# Logs & temp files
+# ------------------------
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 *.log
-*.bak
 *.tmp
+*.bak
 *.swp
 
-# OS-specific files
+# ------------------------
+# OS-specific
+# ------------------------
 .DS_Store
 Thumbs.db
 ehthumbs.db
 Icon?
 Desktop.ini
 
-# Node modules (for widgets)
-node_modules/
-*.lock
-
-# IDE settings
+# ------------------------
+# IDE / Editor
+# ------------------------
 .vscode/
 .idea/
 *.iml
 
-# Test & coverage output
+# ------------------------
+# Test & coverage
+# ------------------------
 coverage/
 junitreports/
