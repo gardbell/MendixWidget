@@ -4,12 +4,12 @@ import { LeadLineChartContainerProps } from "../typings/LeadLineChartProps";
 import Big from "big.js";
 
 export default function LeadLineChart(props: LeadLineChartContainerProps) {
-  const elRef = useRef<HTMLDivElement>(null);
+
+  const chartRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!elRef.current || !props.dataSource?.items) return;
+    if (!props.dataSource?.items) return;
 
-    // 데이터
     const values: number[] = [];
     const labels: string[] = [];
     const colors: string[] = [];
@@ -20,27 +20,22 @@ export default function LeadLineChart(props: LeadLineChartContainerProps) {
       colors.push(props.colorAttr?.get(item).value ?? "");
     }
 
-    const trace: Partial<PieData> = {
+    const data: Partial<PieData>[] = [{
       type: "pie",
       values,
       labels,
-      hole: 0.68,
-      // ★ 라벨 + 리드라인 자동
+      hole: 0.6,
       textposition: "outside",
       textinfo: "label+percent",
       automargin: true,
-      sort: false,
-      rotation: -90,
-      direction: "clockwise",
+      pull: 0,
       marker: {
         colors: colors.some(Boolean) ? colors : undefined,
         line: { color: "#fff", width: 1 }
       },
-      // 도메인 살짝 중앙으로 → 리드라인 짧고 라벨 잘림 방지
       domain: { x: [0.25, 0.75], y: [0.22, 0.78] },
-      // 작은 영역에서도 라벨 겹치면 숨겨 과밀 방지
       textfont: { family: "Arial, sans-serif", size: 12, color: "#333" },
-    };
+    }];
 
     const layout = {
       showlegend: false,
@@ -55,23 +50,20 @@ export default function LeadLineChart(props: LeadLineChartContainerProps) {
           showarrow: false
         }
       ],
-      margin: { t: 20, b: 20, l: 20, r: 20 }
+      margin: { t: 0, b: 0, l: 0, r: 0 }
     };
 
-    Plotly.react(elRef.current, [trace], layout, { responsive: true, displayModeBar: false });
-
-    const onResize = () => Plotly.Plots.resize(elRef.current!);
-    window.addEventListener("resize", onResize);
-    return () => {
-      window.removeEventListener("resize", onResize);
-      Plotly.purge(elRef.current!);
-    };
-  }, [props.dataSource?.items, props.valueAttr, props.labelAttr, props.colorAttr]);
+    if (chartRef.current) {
+      Plotly.newPlot(chartRef.current, data, layout, {
+        responsive: true
+      });
+    }
+  }, [props.valueAttr, props.labelAttr, props.colorAttr]);
 
   return (
     <div
-      ref={elRef}
-      style={{ width: "100%", height: "100%", overflow: "visible", ...(props.style ?? {}) }}
+      ref={chartRef}
+      style={{ width: "200px", height: "200px", ...(props.style ?? {}) }}
     />
   );
 }
