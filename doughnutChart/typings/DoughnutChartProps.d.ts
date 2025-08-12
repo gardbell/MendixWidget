@@ -31,7 +31,6 @@ export interface DoughnutChartContainerProps {
     labelColor: string;
     elbowLen: number;
     elbowVert: number;
-    elbowOnlyTopBottom: boolean;
     topBottomThresholdDeg: number;
 }
 
@@ -65,6 +64,5 @@ export interface DoughnutChartPreviewProps {
     labelColor: string;
     elbowLen: number | null;
     elbowVert: number | null;
-    elbowOnlyTopBottom: boolean;
     topBottomThresholdDeg: number | null;
 }
