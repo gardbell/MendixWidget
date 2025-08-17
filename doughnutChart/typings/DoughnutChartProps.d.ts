@@ -19,6 +19,8 @@ export interface DoughnutChartContainerProps {
     width: number;
     height: number;
     cutoutPct: number;
+    doughnutSize: Big;
+    lineStart: Big;
     rotationDeg: number;
     centerText: string;
     centerTextFontSize: number;
@@ -52,6 +54,8 @@ export interface DoughnutChartPreviewProps {
     width: number | null;
     height: number | null;
     cutoutPct: number | null;
+    doughnutSize: number | null;
+    lineStart: number | null;
     rotationDeg: number | null;
     centerText: string;
     centerTextFontSize: number | null;

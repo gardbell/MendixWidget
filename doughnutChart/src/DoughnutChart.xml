@@ -54,6 +54,14 @@
         <caption>도넛 구멍 비율(%)</caption>
         <description>0~95, 기본 60</description>
       </property>
+      <property key="doughnutSize" type="decimal" defaultValue="0.7">
+        <caption>도넛 크기 비율(%)</caption>
+        <description>0~1, 기본 0.7</description>
+      </property>
+      <property key="lineStart" type="decimal" defaultValue="0.85">
+        <caption>라인시작점 비율(%)</caption>
+        <description>0~1, 기본 0.85</description>
+      </property>
       <property key="rotationDeg" type="integer" defaultValue="-90">
         <caption>시작 각도(도)</caption>
         <description>-90은 12시 방향 시작</description>
