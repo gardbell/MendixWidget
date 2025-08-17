@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ListValue, ListAttributeValue } from "mendix";
+import { EditableValue } from "mendix";
 import { Big } from "big.js";
 
 export interface DoughnutChartContainerProps {
@@ -12,10 +12,9 @@ export interface DoughnutChartContainerProps {
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    dataSource: ListValue;
-    valueAttr: ListAttributeValue<Big>;
-    labelAttr: ListAttributeValue<string>;
-    colorAttr: ListAttributeValue<string>;
+    valuesAttr: EditableValue<string>;
+    labelsAttr: EditableValue<string>;
+    colorsAttr?: EditableValue<string>;
     width: number;
     height: number;
     cutoutPct: number;
@@ -47,10 +46,9 @@ export interface DoughnutChartPreviewProps {
     readOnly: boolean;
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
-    dataSource: {} | { caption: string } | { type: string } | null;
-    valueAttr: string;
-    labelAttr: string;
-    colorAttr: string;
+    valuesAttr: string;
+    labelsAttr: string;
+    colorsAttr: string;
     width: number | null;
     height: number | null;
     cutoutPct: number | null;

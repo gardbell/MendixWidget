@@ -2,7 +2,7 @@
 <widget
   id="mendix.doughnutchart.DoughnutChart"
   pluginWidget="true"
-  needsEntityContext="false"
+  needsEntityContext="true"
   offlineCapable="true"
   supportedPlatform="Web"
   xmlns="http://www.mendix.com/widget/1.0/"
@@ -12,35 +12,33 @@
   <description>Donut chart with top/bottom elbow leader lines and external labels.</description>
 
   <properties>
+    <!-- Data: 컨텍스트 엔티티의 String 속성 3개(JSON 배열 문자열) -->
     <propertyGroup caption="Data">
-      <property key="dataSource" type="datasource" isList="true" required="true">
-        <caption>데이터 소스</caption>
-        <description>value / label / color를 가진 엔티티 리스트</description>
-      </property>
-      <property key="valueAttr" type="attribute" dataSource="dataSource" required="true">
-        <caption>값 속성</caption>
-        <description>숫자형 속성을 선택하세요</description>
-        <attributeTypes>
-          <attributeType name="Decimal"/>
-          <attributeType name="Integer"/>
-          <attributeType name="Long"/>
-        </attributeTypes>
-      </property>
-      <property key="labelAttr" type="attribute" dataSource="dataSource" required="true">
-        <caption>라벨 속성</caption>
-        <description>표시에 사용할 문자열 속성</description>
+      <property key="valuesAttr" type="attribute" required="true">
+        <caption>값 배열 속성</caption>
+        <description>[10,20,30] 형태의 JSON 문자열</description>
         <attributeTypes>
           <attributeType name="String"/>
         </attributeTypes>
       </property>
-      <property key="colorAttr" type="attribute" dataSource="dataSource" required="true">
-        <caption>색상 속성</caption>
-        <description>#RRGGBB 또는 rgb() 문자열</description>
+
+      <property key="labelsAttr" type="attribute" required="true">
+        <caption>라벨 배열 속성</caption>
+        <description>["A","B","C"] 형태의 JSON 문자열</description>
+        <attributeTypes>
+          <attributeType name="String"/>
+        </attributeTypes>
+      </property>
+
+      <property key="colorsAttr" type="attribute" required="false">
+        <caption>색상 배열 속성</caption>
+        <description>["#ff6384","#36a2eb","#ffcd56"] 형태의 JSON 문자열(비워두면 기본 팔레트)</description>
         <attributeTypes>
           <attributeType name="String"/>
         </attributeTypes>
       </property>
     </propertyGroup>
+
     <propertyGroup caption="Layout">
       <property key="width" type="integer" defaultValue="360">
         <caption>너비(px)</caption>
@@ -67,6 +65,7 @@
         <description>-90은 12시 방향 시작</description>
       </property>
     </propertyGroup>
+
     <propertyGroup caption="Labels &amp; Leader lines">
       <property key="centerText" type="string" defaultValue="">
         <caption>중앙 텍스트</caption>
@@ -78,7 +77,7 @@
       </property>
       <property key="centerTextFontWeight" type="integer" defaultValue="700">
         <caption>중앙 텍스트 굵기(px)</caption>
-        <description>중앙 문구의 글자 긁기</description>
+        <description>중앙 문구의 글자 굵기</description>
       </property>
       <property key="centerTextFontColor" type="string" defaultValue="#333">
         <caption>중앙 텍스트 색</caption>
@@ -101,7 +100,7 @@
         <description>라벨 굵기</description>
       </property>
       <property key="labelColor" type="string" defaultValue="#333">
-        <caption> 라벨 색</caption>
+        <caption>라벨 색</caption>
         <description>라벨 글자 색</description>
       </property>
       <property key="elbowLen" type="integer" defaultValue="24">
