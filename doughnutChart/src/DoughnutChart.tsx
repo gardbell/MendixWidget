@@ -263,13 +263,13 @@ export default function DoughnutChart(p: DoughnutChartContainerProps): ReactElem
     (["right", "left"] as const).forEach(side => {
       const onSide = nodes.filter(n => n.side === side);
 
-      // 1) 수직 엘보인 것들은 항상 레이아웃(겹침 방지)
+      // 1) 수직 엘보는 항상 간격 정렬
       const vTop = onSide.filter(n => n.isVerticalCase && (n.preferredHalf ?? (n.end.y < cy ? "top" : "bottom")) === "top");
       const vBot = onSide.filter(n => n.isVerticalCase && (n.preferredHalf ?? (n.end.y < cy ? "top" : "bottom")) === "bottom");
       layout(vTop, topLimit, cy - cyGap);
       layout(vBot, cy + cyGap, bottomLimit);
 
-      // 2) 수평 라벨 혼잡 시 → 그쪽 전부를 수직 전환하여 위/아래 분리 배치
+      // 2) 수평 라벨 혼잡 시 → 전부 수직 전환 + 분리 배치
       const horiz = onSide.filter(n => !n.isVerticalCase).sort((a, b) => a.end.y - b.end.y);
       let crowded = false;
       for (let i = 1; i < horiz.length; i++) {
@@ -280,6 +280,18 @@ export default function DoughnutChart(p: DoughnutChartContainerProps): ReactElem
         const bottomList = onSide.filter(n => (n.preferredHalf ?? (n.end.y < cy ? "top" : "bottom")) === "bottom");
         layout(topList, topLimit, cy - cyGap);
         layout(bottomList, cy + cyGap, bottomLimit);
+      }
+    });
+
+    // 3) ★ 라인-라벨 충돌 방지: 라인의 끝점도 라벨 영역 밖으로 클램프
+    const leftMin = 2;
+    const rightMax = width - 2;
+    nodes.forEach(n => {
+      const labelW = n.textWidth ?? measureTextWidthCached(n.label, fontSize, labelWeight);
+      if (n.side === "right") {
+        n.end.x = clamp(n.end.x, leftMin, rightMax - labelW - 4); // 라인 끝과 라벨 시작 사이 4px
+      } else {
+        n.end.x = clamp(n.end.x, leftMin + 4 + labelW, rightMax);
       }
     });
   }
@@ -320,13 +332,9 @@ export default function DoughnutChart(p: DoughnutChartContainerProps): ReactElem
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
         {nodes.map((n, i) => {
           const isRight = n.side === "right";
-          const leftMin = 2;
-          const rightMax = width - 2;
-          const labelW = n.textWidth ?? measureTextWidthCached(n.label, fontSize, labelWeight);
-          const safeEndX = isRight ? clamp(n.end.x, leftMin, rightMax - labelW - 4) : clamp(n.end.x, leftMin + 4 + labelW, rightMax);
-          const left = isRight ? safeEndX + 4 : safeEndX - 4;
           const half = fontSize / 2;
           const top = clamp(n.end.y, half + 4, height - half - 4);
+          const left = isRight ? n.end.x + 4 : n.end.x - 4; // 라벨은 라인 끝에서 4px 떨어뜨림
           return (
             <div
               key={`label-${makeKey(i)}`}
