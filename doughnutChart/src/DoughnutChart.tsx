@@ -150,15 +150,17 @@ export default function DoughnutChart(p: DoughnutChartContainerProps): ReactElem
   const elbowVertBase = clamp(asFinite((p as any)?.elbowVert, 16), 6, Math.max(10, H));
   const gapY = clamp(asFinite((p as any)?.minLabelGap, 8), 4, 80);
   const labelPad = 4;
+  const doughnutSize=asFinite((p as any)?.doughnutSize, 0.7);
+  const lineStart=asFinite((p as any)?.lineStart, 0.85);
   const startDeg = asFinite((p as any)?.rotationDeg, -90);
   const topBottomThreshold = deg2rad(clamp(asFinite((p as any)?.topBottomThresholdDeg, 22), 0, 90));
 
-  /* 도넛 반지름(30% 축소로 라벨 공간 확보) */
-  const outerR = Math.max(10, baseOuter * 0.7);
+  /* 도넛 반지름 */
+  const outerR = Math.max(10, baseOuter * doughnutSize);
   const innerR = Math.max(0, outerR * (cutoutPct / 100));
 
   /* 라인 시작 반지름: 중앙선에서 바깥쪽 30% */
-  const startR = clamp(innerR + (outerR - innerR) * 0.65, 0, outerR);
+  const startR = clamp(innerR + (outerR - innerR) * lineStart, 0, outerR);
 
   /* 각도/조각 */
   const total = rows.reduce((a, b) => a + (Number.isFinite(b.value) ? b.value : 0), 0);

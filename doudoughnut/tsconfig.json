@@ -1,7 +1,0 @@
-{
-  "extends": "./node_modules/@mendix/pluggable-widgets-tools/configs/tsconfig.base.json",
-  "compilerOptions": {
-    "baseUrl": "./"
-  },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "typings/**/*.d.ts"]
-}

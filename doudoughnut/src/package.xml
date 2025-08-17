@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://www.mendix.com/package/1.0/">
-  <clientModule xmlns="http://www.mendix.com/clientModule/1.0/" name="Doudoughnut" version="1.1.1">
-    <widgetFiles>
-      <widgetFile path="Doudoughnut.xml"/>
-    </widgetFiles>
-  </clientModule>
-</package>
